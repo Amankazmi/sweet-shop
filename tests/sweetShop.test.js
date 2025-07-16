@@ -31,4 +31,13 @@ describe('SweetShop', () => {
     expect(sweet.quantity).toBe(15);
   });
 
+  test('should search sweets by name', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Lollipop', price: 1.5, type: 'candy', quantity: 10 });
+    shop.addSweet({ name: 'Chocolate', price: 2.0, type: 'chocolate', quantity: 5 });
+    const results = shop.searchByName('Lolli');
+    expect(results.length).toBe(1);
+    expect(results[0].name).toBe('Lollipop');
+  });
+
 }); 
