@@ -100,5 +100,11 @@ All actions update the sweets table in real time.
 
 ---
 
+## 📦 Project Video and Test Report
+
+[Drive Link](https://drive.google.com/drive/folders/1FhaN8OicRdUEPCdo_z3f5IWDdWe9PpO_)
+
+---
+
 
 
