@@ -4,6 +4,18 @@ A modern, full-featured sweet shop inventory management system built with JavaSc
 
 ---
 
+## 🚀 Deployment
+
+The project is live at: [Sweet Shop App](https://sweet-shop-vnma.onrender.com/)
+
+---
+
+## 🔗 Project Video and Test Report
+
+[Drive Link](https://drive.google.com/drive/folders/1FhaN8OicRdUEPCdo_z3f5IWDdWe9PpO_)
+
+---
+
 ## 🚀 Features
 
 - **Modern Web UI**: Responsive, visually appealing, and easy to use (no Bootstrap, pure CSS)
@@ -97,12 +109,6 @@ All actions update the sweets table in real time.
 1. Fork the repo and create a new branch for your feature or bugfix.
 2. Write clear, tested code and update/add tests as needed.
 3. Submit a pull request with a clear description.
-
----
-
-## 📦 Project Video and Test Report
-
-[Drive Link](https://drive.google.com/drive/folders/1FhaN8OicRdUEPCdo_z3f5IWDdWe9PpO_)
 
 ---
 
