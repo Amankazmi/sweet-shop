@@ -38,6 +38,10 @@ class SweetShop {
   searchByName(query) {
     return this.sweets.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
   }
+
+  searchByPrice(min, max) {
+    return this.sweets.filter(s => s.price >= min && s.price <= max);
+  }
 }
 
 module.exports = SweetShop; 
