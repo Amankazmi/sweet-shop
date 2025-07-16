@@ -23,4 +23,12 @@ describe('SweetShop', () => {
     expect(sweet.quantity).toBe(7);
   });
 
+  test('should restock a sweet and increase quantity', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Lollipop', price: 1.5, type: 'candy', quantity: 10 });
+    shop.restockSweet('Lollipop', 5);
+    const sweet = shop.getSweets().find(s => s.name === 'Lollipop');
+    expect(sweet.quantity).toBe(15);
+  });
+
 }); 
