@@ -12,6 +12,10 @@ class SweetShop {
   getSweets() {
     return this.sweets;
   }
+
+  deleteSweet(identifier) {
+    this.sweets = this.sweets.filter(s => String(s.id) !== identifier && s.name !== identifier);
+  }
 }
 
 module.exports = SweetShop; 
