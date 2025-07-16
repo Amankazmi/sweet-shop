@@ -34,6 +34,10 @@ class SweetShop {
       throw new Error('Sweet not found');
     }
   }
+
+  searchByName(query) {
+    return this.sweets.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
+  }
 }
 
 module.exports = SweetShop; 
