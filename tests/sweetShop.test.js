@@ -68,4 +68,13 @@ describe('SweetShop', () => {
     expect(results.map(s => s.name)).toEqual(['Chocolate', 'Gum', 'Lollipop']);
   });
 
+  test('should sort sweets by price ascending', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Gum', price: 0.5, type: 'candy', quantity: 20 });
+    shop.addSweet({ name: 'Lollipop', price: 1.5, type: 'candy', quantity: 10 });
+    shop.addSweet({ name: 'Chocolate', price: 2.0, type: 'chocolate', quantity: 5 });
+    const results = shop.sortSweets('price', 'asc');
+    expect(results.map(s => s.price)).toEqual([0.5, 1.5, 2.0]);
+  });
+
 }); 
