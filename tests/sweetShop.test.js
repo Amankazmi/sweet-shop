@@ -15,4 +15,12 @@ describe('SweetShop', () => {
     expect(shop.getSweets().length).toBe(0);
   });
 
+  test('should purchase a sweet and reduce quantity', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Lollipop', price: 1.5, type: 'candy', quantity: 10 });
+    shop.purchaseSweet('Lollipop', 3);
+    const sweet = shop.getSweets().find(s => s.name === 'Lollipop');
+    expect(sweet.quantity).toBe(7);
+  });
+
 }); 
