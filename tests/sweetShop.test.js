@@ -77,4 +77,13 @@ describe('SweetShop', () => {
     expect(results.map(s => s.price)).toEqual([0.5, 1.5, 2.0]);
   });
 
+  test('should get low stock sweets', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Lollipop', price: 1.5, type: 'candy', quantity: 3 });
+    shop.addSweet({ name: 'Chocolate', price: 2.0, type: 'chocolate', quantity: 6 });
+    const lowStock = shop.getLowStock();
+    expect(lowStock.length).toBe(1);
+    expect(lowStock[0].name).toBe('Lollipop');
+  });
+
 }); 
