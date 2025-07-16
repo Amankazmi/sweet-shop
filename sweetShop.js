@@ -16,6 +16,15 @@ class SweetShop {
   deleteSweet(identifier) {
     this.sweets = this.sweets.filter(s => String(s.id) !== identifier && s.name !== identifier);
   }
+
+   purchaseSweet(identifier, amount) {
+    const sweet = this.sweets.find(s => String(s.id) === identifier || s.name === identifier);
+    if (sweet && sweet.quantity >= amount) {
+      sweet.quantity -= amount;
+    } else {
+      throw new Error('Not enough stock or sweet not found');
+    }
+  }
 }
 
 module.exports = SweetShop; 
