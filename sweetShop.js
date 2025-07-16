@@ -58,6 +58,10 @@ class SweetShop {
     });
     return sorted;
   }
+
+  getLowStock(threshold = 5) {
+    return this.sweets.filter(s => s.quantity < threshold);
+  }
 }
 
 module.exports = SweetShop; 
