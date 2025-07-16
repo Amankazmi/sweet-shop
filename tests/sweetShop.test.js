@@ -86,4 +86,46 @@ describe('SweetShop', () => {
     expect(lowStock[0].name).toBe('Lollipop');
   });
 
+  test('should delete a sweet by ID', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Lollipop', price: 1.5, type: 'candy', quantity: 10 });
+    const id = shop.getSweets()[0].id;
+    shop.deleteSweet(String(id));
+    expect(shop.getSweets().length).toBe(0);
+  });
+
+  test('should purchase a sweet by ID', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Barfi', price: 3.0, type: 'mithai', quantity: 8 });
+    const id = shop.getSweets()[0].id;
+    shop.purchaseSweet(String(id), 3);
+    expect(shop.getSweets()[0].quantity).toBe(5);
+  });
+
+  test('should restock a sweet by ID', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Jalebi', price: 2.5, type: 'mithai', quantity: 4 });
+    const id = shop.getSweets()[0].id;
+    shop.restockSweet(String(id), 6);
+    expect(shop.getSweets()[0].quantity).toBe(10);
+  });
+
+  test('should search by price range with string input', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Rasgulla', price: 5, type: 'mithai', quantity: 10 });
+    shop.addSweet({ name: 'Kaju Katli', price: 10, type: 'mithai', quantity: 5 });
+    // Simulate string input as from query params
+    const results = shop.searchByPrice('4', '6');
+    expect(results.length).toBe(1);
+    expect(results[0].name).toBe('Rasgulla');
+  });
+
+  test('should search by type case-insensitive', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Peda', price: 2, type: 'Mithai', quantity: 10 });
+    const results = shop.searchByType('mithai');
+    expect(results.length).toBe(1);
+    expect(results[0].name).toBe('Peda');
+  });
+
 }); 
