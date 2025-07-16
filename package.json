@@ -1,0 +1,27 @@
+{
+  "name": "sweet-shop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amankazmi/sweet-shop.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Amankazmi/sweet-shop/issues"
+  },
+  "homepage": "https://github.com/Amankazmi/sweet-shop#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "jest": "^30.0.4",
+    "uuid": "^11.1.0"
+  }
+}
