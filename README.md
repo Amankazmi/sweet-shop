@@ -6,7 +6,7 @@ A modern, full-featured sweet shop inventory management system built with JavaSc
 
 ## 🚀 Deployment
 
-The project is live at: ([Sweet Shop App](https://sweet-shop-vnma.onrender.com/))
+The project is live at: [Sweet Shop App](https://sweet-shop-vnma.onrender.com/)
 
 ---
 
