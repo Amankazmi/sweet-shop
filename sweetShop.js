@@ -42,6 +42,10 @@ class SweetShop {
   searchByPrice(min, max) {
     return this.sweets.filter(s => s.price >= min && s.price <= max);
   }
+
+  searchByType(type) {
+    return this.sweets.filter(s => s.type.toLowerCase() === type.toLowerCase());
+  }
 }
 
 module.exports = SweetShop; 
