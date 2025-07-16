@@ -50,4 +50,13 @@ describe('SweetShop', () => {
     expect(results.map(s => s.name)).toEqual(expect.arrayContaining(['Lollipop', 'Chocolate']));
   });
 
+  test('should search sweets by type', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Lollipop', price: 1.5, type: 'candy', quantity: 10 });
+    shop.addSweet({ name: 'Chocolate', price: 2.0, type: 'chocolate', quantity: 5 });
+    const results = shop.searchByType('candy');
+    expect(results.length).toBe(1);
+    expect(results[0].name).toBe('Lollipop');
+  });
+
 }); 
