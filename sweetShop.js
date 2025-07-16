@@ -46,6 +46,18 @@ class SweetShop {
   searchByType(type) {
     return this.sweets.filter(s => s.type.toLowerCase() === type.toLowerCase());
   }
+
+  sortSweets(by, order) {
+    let sorted = [...this.sweets];
+    sorted.sort((a, b) => {
+      if (by === 'name') {
+        return order === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+      } else if (by === 'price') {
+        return order === 'asc' ? a.price - b.price : b.price - a.price;
+      }
+    });
+    return sorted;
+  }
 }
 
 module.exports = SweetShop; 
