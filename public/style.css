@@ -1,0 +1,164 @@
+:root {
+  --primary: #bb86fc;
+  --secondary: #03dac6;
+  --accent: #ffb300;
+  --bg: #181a1b;
+  --card-bg: #23272a;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --radius: 16px;
+  --input-bg: #23272a;
+  --input-border: #333;
+  --table-header: #222326;
+  --text: #f1f1f1;
+  --error: #cf6679;
+  --success: #388e3c;
+}
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+}
+header {
+  position: sticky;
+  top: 0;
+  background: var(--card-bg);
+  color: var(--primary);
+  padding: 32px 0 24px 0;
+  text-align: center;
+  box-shadow: var(--shadow);
+  z-index: 10;
+}
+header h1 {
+  margin: 0;
+  font-size: 2.7em;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--primary);
+}
+.container {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 32px;
+  padding: 32px 24px 24px 24px;
+  transition: box-shadow 0.2s;
+}
+.card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+h2 {
+  color: var(--secondary);
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.4em;
+  border-left: 5px solid var(--primary);
+  padding-left: 12px;
+  letter-spacing: 1px;
+}
+form,
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+input,
+select,
+button {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  font-size: 1em;
+  outline: none;
+  color: var(--text);
+  transition: border 0.2s, background 0.2s;
+}
+input:focus,
+select:focus {
+  border: 1.5px solid var(--primary);
+  background: #181a1b;
+}
+button {
+  background: var(--primary);
+  color: #181a1b;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(187, 134, 252, 0.1);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+button:hover {
+  background: var(--secondary);
+  color: #181a1b;
+  box-shadow: 0 4px 16px rgba(3, 218, 198, 0.1);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+}
+th,
+td {
+  padding: 14px 10px;
+  text-align: left;
+  border-bottom: 1px solid #292929;
+}
+th {
+  background: var(--table-header);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1.05em;
+}
+tr:last-child td {
+  border-bottom: none;
+}
+tr:hover {
+  background: #23272a;
+}
+.alert {
+  padding: 12px 18px;
+  margin: 12px 0 0 0;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(251, 192, 45, 0.08);
+}
+.success {
+  background: #26332a;
+  color: var(--success);
+  border-left: 5px solid var(--secondary);
+}
+.error {
+  background: #2d1a1a;
+  color: var(--error);
+  border-left: 5px solid var(--primary);
+}
+@media (max-width: 700px) {
+  .container {
+    padding: 0 4px;
+  }
+  .card {
+    padding: 18px 6px 12px 6px;
+  }
+  th,
+  td {
+    padding: 8px 4px;
+    font-size: 0.98em;
+  }
+  h2 {
+    font-size: 1.1em;
+  }
+}

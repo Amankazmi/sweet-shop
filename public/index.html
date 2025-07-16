@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sweet Shop Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Sweet Shop Management</h1>
+  </header>
+  <div class="container">
+    <div class="card">
+      <h2>Add Sweet</h2>
+      <form id="addForm">
+        <input type="text" placeholder="Name" id="addName" required>
+        <input type="number" placeholder="Price" id="addPrice" step="0.01" required>
+        <select id="addType" required>
+          <option value="">Select Type</option>
+          <option value="candy">Candy</option>
+          <option value="chocolate">Chocolate</option>
+          <option value="gummy">Gummy</option>
+          <option value="other">Other</option>
+        </select>
+        <input type="text" id="customType" placeholder="Custom Type" style="display:none;">
+        <input type="number" placeholder="Quantity" id="addQuantity" required>
+        <button type="submit">Add</button>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Sweets List</h2>
+      <table id="sweetsTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Type</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h2>Search Sweets</h2>
+      <div class="form-row">
+        <select id="searchType">
+          <option value="name">By Name</option>
+          <option value="type">By Type</option>
+          <option value="price">By Price Range</option>
+        </select>
+        <input type="text" id="searchQuery" placeholder="Enter search term">
+        <input type="number" id="searchMin" placeholder="Min Price" style="display:none;">
+        <input type="number" id="searchMax" placeholder="Max Price" style="display:none;">
+        <button onclick="searchSweets()">Search</button>
+      </div>
+      <table id="searchResultsTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Type</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody id="searchResultsBody"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h2>Delete Sweet by ID</h2>
+      <div class="form-row">
+        <input type="text" placeholder="ID to delete" id="deleteId">
+        <button onclick="deleteSweetById()">Delete by ID</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Purchase Sweet</h2>
+      <div class="form-row">
+        <select id="purchaseSweet">
+          <option value="">Select Sweet</option>
+        </select>
+        <input type="number" placeholder="Quantity" id="purchaseQuantity">
+        <button onclick="purchaseSweet()">Purchase</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Restock Sweet</h2>
+      <div class="form-row">
+        <input type="text" placeholder="Name or ID" id="restockName">
+        <input type="number" placeholder="Quantity" id="restockQuantity">
+        <button onclick="restockSweet()">Restock</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Low Stock</h2>
+      <button onclick="showLowStock()">Show Low Stock</button>
+      <table id="lowStockTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Type</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody id="lowStockBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    async function fetchSweets() {
+      const response = await fetch('/sweets');
+      const sweets = await response.json();
+      // Populate purchase dropdown
+      const select = document.getElementById('purchaseSweet');
+      select.innerHTML = '<option value="">Select Sweet</option>';
+      sweets.forEach(s => {
+        const option = document.createElement('option');
+        option.value = String(s.id);
+        option.textContent = `${s.name} (ID: ${s.id}, Qty: ${s.quantity})`;
+        select.appendChild(option);
+      });
+      // Update table
+      const tbody = document.querySelector('#sweetsTable tbody');
+      tbody.innerHTML = '';
+      sweets.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${s.id}</td><td>${s.name}</td><td>₹${s.price.toFixed(2)}</td><td>${s.type}</td><td>${s.quantity}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    document.getElementById('addForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const sweet = {
+        name: document.getElementById('addName').value,
+        price: parseFloat(document.getElementById('addPrice').value),
+        type: document.getElementById('addType').value === 'other' ? document.getElementById('customType').value : document.getElementById('addType').value,
+        quantity: parseInt(document.getElementById('addQuantity').value)
+      };
+      try {
+        await fetch('/sweets', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(sweet) });
+        showAlert('Sweet added successfully', 'success');
+      } catch (error) {
+        showAlert(error.message, 'error');
+      }
+      fetchSweets();
+    });
+    async function deleteSweetById() {
+      try {
+        const id = document.getElementById('deleteId').value;
+        if (!id) {
+          showAlert('Please enter an ID', 'error');
+          return;
+        }
+        await fetch(`/sweets/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        showAlert('Sweet deleted successfully', 'success');
+      } catch (error) {
+        showAlert(error.message || 'Failed to delete sweet', 'error');
+      }
+      fetchSweets();
+    }
+    async function purchaseSweet() {
+      try {
+        const identifier = document.getElementById('purchaseSweet').value;
+        if (!identifier) {
+          showAlert('Please select a sweet', 'error');
+          return;
+        }
+        const amount = parseInt(document.getElementById('purchaseQuantity').value);
+        if (isNaN(amount) || amount <= 0) {
+          showAlert('Invalid quantity', 'error');
+          return;
+        }
+        await fetch(`/purchase/${encodeURIComponent(identifier)}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount }) });
+        showAlert('Purchased successfully', 'success');
+      } catch (error) {
+        showAlert(error.message, 'error');
+      }
+      fetchSweets();
+    }
+    async function restockSweet() {
+      try {
+        const name = document.getElementById('restockName').value;
+        const amount = parseInt(document.getElementById('restockQuantity').value);
+        await fetch(`/restock/${encodeURIComponent(name)}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount }) });
+        showAlert('Restocked successfully', 'success');
+      } catch (error) {
+        showAlert(error.message, 'error');
+      }
+      fetchSweets();
+    }
+    async function showLowStock() {
+      const response = await fetch('/lowstock');
+      const sweets = await response.json();
+      const tbody = document.getElementById('lowStockBody');
+      tbody.innerHTML = '';
+      sweets.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${s.id || 'N/A'}</td><td>${s.name}</td><td>₹${s.price.toFixed(2)}</td><td>${s.type}</td><td>${s.quantity}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    async function searchSweets() {
+      const type = document.getElementById('searchType').value;
+      let url = `/search/${type}?`;
+      if (type === 'name' || type === 'type') {
+        url += `${type === 'name' ? 'q' : 'type'}=${encodeURIComponent(document.getElementById('searchQuery').value)}`;
+      } else if (type === 'price') {
+        url += `min=${document.getElementById('searchMin').value}&max=${document.getElementById('searchMax').value}`;
+      }
+      const response = await fetch(url);
+      const results = await response.json();
+      const tbody = document.getElementById('searchResultsBody');
+      tbody.innerHTML = '';
+      results.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${s.id || 'N/A'}</td><td>${s.name}</td><td>₹${s.price.toFixed(2)}</td><td>${s.type}</td><td>${s.quantity}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    document.getElementById('addType').addEventListener('change', (e) => {
+      const customInput = document.getElementById('customType');
+      customInput.style.display = e.target.value === 'other' ? 'block' : 'none';
+      customInput.required = e.target.value === 'other';
+    });
+    document.getElementById('searchType').addEventListener('change', (e) => {
+      const type = e.target.value;
+      document.getElementById('searchQuery').style.display = (type === 'name' || type === 'type') ? 'block' : 'none';
+      document.getElementById('searchMin').style.display = type === 'price' ? 'block' : 'none';
+      document.getElementById('searchMax').style.display = type === 'price' ? 'block' : 'none';
+    });
+    function showAlert(message, type) {
+      const alert = document.createElement('div');
+      alert.className = `alert ${type}`;
+      alert.textContent = message;
+      document.body.insertBefore(alert, document.body.firstChild);
+      setTimeout(() => alert.remove(), 3000);
+    }
+    fetchSweets();
+  </script>
+</body>
+</html> 
