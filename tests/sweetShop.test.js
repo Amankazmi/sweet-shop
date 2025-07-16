@@ -40,4 +40,14 @@ describe('SweetShop', () => {
     expect(results[0].name).toBe('Lollipop');
   });
 
+  test('should search sweets by price range', () => {
+    const shop = new SweetShop();
+    shop.addSweet({ name: 'Lollipop', price: 1.5, type: 'candy', quantity: 10 });
+    shop.addSweet({ name: 'Chocolate', price: 2.0, type: 'chocolate', quantity: 5 });
+    shop.addSweet({ name: 'Gum', price: 0.5, type: 'candy', quantity: 20 });
+    const results = shop.searchByPrice(1.0, 2.0);
+    expect(results.length).toBe(2);
+    expect(results.map(s => s.name)).toEqual(expect.arrayContaining(['Lollipop', 'Chocolate']));
+  });
+
 }); 
