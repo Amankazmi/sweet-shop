@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Amankazmi/sweet-shop#readme",
   "description": "",
   "dependencies": {
+    "cores": "^0.8.5",
     "express": "^5.1.0",
     "jest": "^30.0.4",
     "uuid": "^11.1.0"
