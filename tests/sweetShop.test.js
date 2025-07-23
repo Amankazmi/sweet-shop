@@ -114,7 +114,6 @@ describe('SweetShop', () => {
     const shop = new SweetShop();
     shop.addSweet({ name: 'Rasgulla', price: 5, type: 'mithai', quantity: 10 });
     shop.addSweet({ name: 'Kaju Katli', price: 10, type: 'mithai', quantity: 5 });
-    // Simulate string input as from query params
     const results = shop.searchByPrice('4', '6');
     expect(results.length).toBe(1);
     expect(results[0].name).toBe('Rasgulla');

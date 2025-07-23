@@ -146,6 +146,7 @@ tr:hover {
   color: var(--error);
   border-left: 5px solid var(--primary);
 }
+
 @media (max-width: 700px) {
   .container {
     padding: 0 4px;

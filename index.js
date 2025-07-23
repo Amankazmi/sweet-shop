@@ -20,15 +20,25 @@ app.get('/sweets', (req, res) => {
 
 // Delete sweet
 app.delete('/sweets/:identifier', (req, res) => {
-  shop.deleteSweet(req.params.identifier);
-  res.send('Sweet deleted');
+  const deleted = shop.deleteSweet(req.params.identifier);
+  if (!deleted) {
+    return res.status(404).send('Sweet not found');
+  }
+  else {
+    res.send('Sweet deleted');
+  }
 });
 
 // Purchase
 app.put('/purchase/:identifier', (req, res) => {
-  shop.purchaseSweet(req.params.identifier, req.body.amount);
-  res.send('Purchased');
+  try {
+    shop.purchaseSweet(req.params.identifier, req.body.amount);
+    res.send('Purchased');
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 });
+
 
 // Restock
 app.put('/restock/:identifier', (req, res) => {

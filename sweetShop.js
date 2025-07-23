@@ -14,16 +14,27 @@ class SweetShop {
   }
 
   deleteSweet(identifier) {
+    const originalLength = this.sweets.length;
     this.sweets = this.sweets.filter(s => String(s.id) !== identifier && s.name !== identifier);
+    return this.sweets.length < originalLength;
   }
 
    purchaseSweet(identifier, amount) {
     const sweet = this.sweets.find(s => String(s.id) === identifier || s.name === identifier);
-    if (sweet && sweet.quantity >= amount) {
-      sweet.quantity -= amount;
-    } else {
-      throw new Error('Not enough stock or sweet not found');
+
+    if (!sweet) {
+      throw new Error('Sweet not found');
     }
+
+    if (sweet.quantity === 0) {
+      throw new Error(`Sweet "${sweet.name}" is out of stock`);
+    }
+
+    if (sweet.quantity < amount) {
+      throw new Error(`Only ${sweet.quantity} of "${sweet.name}" left in stock`);
+    }
+
+    sweet.quantity -= amount;
   }
 
   restockSweet(identifier, amount) {
@@ -56,12 +67,13 @@ class SweetShop {
         return order === 'asc' ? a.price - b.price : b.price - a.price;
       }
     });
-    return sorted;
+    return sorted;  
   }
 
   getLowStock(threshold = 5) {
     return this.sweets.filter(s => s.quantity < threshold);
   }
+
 }
 
 module.exports = SweetShop; 
